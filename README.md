@@ -1,7 +1,12 @@
 # 💠 Beans Pirates
 
-**The Essence of Kinetic Intelligence** 우리는 복잡한 데이터 망을 조율하여 신체 움직임의 본질적인 진실을 찾아내는 고성능 기술 스택을 구축합니다.  
-차세대 헬스케어 시스템과 이를 뒷받침하는 강력한 백엔드 아키텍처를 연구하는 조직입니다.
+**The Essence of Kinetic Intelligence**
+
+우리는 복잡한 데이터 망을 조율하여 신체 움직임의 본질적인 진실을 찾아내는 고성능 기술 스택을 구축합니다.  
+
+SAiM: B2C 형태의 AI 피트니스 코칭 시스템
+
+SAiM Manager: 피트니스 조직의 CRM Tool
 
 ---
 
