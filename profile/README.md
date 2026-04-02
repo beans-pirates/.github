@@ -17,6 +17,52 @@ SAiM Manager: 피트니스 조직의 CRM Tool
 
 ---
 
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant FE as Frontend
+    participant BE as Backend
+    participant SP as Social Provider
+
+    U->>FE: 소셜 로그인 버튼 클릭
+    FE->>BE: GET /v1/oauth/{socialType}/authorize
+
+    Note right of BE: state 생성 및 저장
+    BE-->>FE: 302 Redirect (소셜 로그인 인가 URL)
+    FE->>SP: 인가 페이지로 이동
+
+    U->>SP: 로그인 및 동의 진행
+    SP-->>BE: GET /v1/oauth/{socialType}/callback?code=...&state=...
+
+    Note right of BE: state 검증
+    Note right of BE: code로 provider access token 요청
+    Note right of BE: 사용자 정보 조회
+    Note right of BE: 회원 존재 여부 확인 및 필요 시 회원 생성
+    Note right of BE: tempToken 발급
+
+    BE-->>FE: 302 Redirect (프론트 redirect URI + tempToken)
+
+    Note over FE: tempToken 추출
+    FE->>BE: POST /v1/oauth/exchange
+    Note left of BE: { tempToken }
+
+    Note right of BE: tempToken 검증 및 consume
+    Note right of BE: customer 조회
+    Note right of BE: accessToken / refreshToken 발급
+    Note right of BE: refreshToken 저장
+    Note right of BE: onboardingCompleted 포함 응답
+
+    BE-->>FE: 200 OK\n{ accessToken, refreshToken, onboardingCompleted }
+
+    alt onboardingCompleted == false
+        Note over FE: accessToken / refreshToken 저장 후\n온보딩 화면으로 이동
+    else onboardingCompleted == true
+        Note over FE: accessToken / refreshToken 저장 후\n홈 화면으로 이동
+    end
+
+```
+
 ### 🌐 Contact & Collaboration
 
 우리는 기술적 한계를 돌파하고, 기술로 미래를 구현합니다.
