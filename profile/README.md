@@ -53,12 +53,12 @@ sequenceDiagram
     Note right of BE: refreshToken 저장
     Note right of BE: onboardingCompleted 포함 응답
 
-    BE-->>FE: 200 OK\n{ accessToken, refreshToken, onboardingCompleted }
+    BE-->>FE: 200 OK { accessToken, refreshToken, onboardingCompleted }
 
     alt onboardingCompleted == false
-        Note over FE: accessToken / refreshToken 저장 후\n온보딩 화면으로 이동
+        Note over FE: accessToken / refreshToken 저장 후 온보딩 화면으로 이동
     else onboardingCompleted == true
-        Note over FE: accessToken / refreshToken 저장 후\n홈 화면으로 이동
+        Note over FE: accessToken / refreshToken 저장 후 홈 화면으로 이동
     end
 
 ```
