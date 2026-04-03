@@ -8,6 +8,9 @@ SAiM: B2C 형태의 AI 피트니스 코칭 시스템
 
 SAiM Manager: 피트니스 조직의 CRM Tool
 
+<img width="241" height="241" alt="image" src="https://github.com/user-attachments/assets/34c0be95-fa79-48b1-ac99-9df2122c7be0" />
+
+
 ---
 
 ### 🚀 Core Focus
