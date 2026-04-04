@@ -8,7 +8,72 @@ SAiM: B2C 형태의 AI 피트니스 코칭 시스템
 
 SAiM Manager: 피트니스 조직의 CRM Tool
 
-<img width="241" height="241" alt="image" src="https://github.com/user-attachments/assets/34c0be95-fa79-48b1-ac99-9df2122c7be0" />
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Client
+    participant P as Kakao/Naver
+    participant S as Server
+    participant D as DB
+
+    U->>C: 소셜 로그인 버튼 클릭
+    C->>P: 로그인 요청
+    P-->>C: accessToken 발급
+
+    C->>S: POST /v1/oauth/login
+    Note over C,S: socialType + accessToken 전달
+
+    S->>P: 사용자 정보 조회 요청
+    Note over S,P: Authorization: Bearer accessToken
+    P-->>S: providerUserId, email 등 사용자 정보 응답
+
+    S->>D: SocialAccount 조회
+    alt 기존 회원 존재
+        D-->>S: 기존 회원 반환
+    else 신규 회원
+        S->>D: Customer 생성
+        S->>D: SocialAccount 생성
+        D-->>S: 신규 회원 반환
+    end
+
+    S->>S: 서비스 accessToken / refreshToken 발급
+    S-->>C: 로그인 응답 반환
+    Note over S,C: accessToken + refreshToken + onboardingCompleted
+```
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Client
+    participant G as Google
+    participant S as Server
+    participant D as DB
+
+    U->>C: 구글 로그인 버튼 클릭
+    C->>G: 구글 로그인 진행
+    G-->>C: idToken 발급
+
+    C->>S: POST /v1/oauth/login
+    Note over C,S: socialType + idToken 전달
+
+    S->>S: Google ID Token 검증
+    Note over S: aud / iss / exp / 서명 검증
+    S->>S: payload 추출
+    Note over S: sub, email 등 사용자 정보 확보
+
+    S->>D: SocialAccount 조회
+    alt 기존 회원 존재
+        D-->>S: 기존 회원 반환
+    else 신규 회원
+        S->>D: Customer 생성
+        S->>D: SocialAccount 생성
+        D-->>S: 신규 회원 반환
+    end
+
+    S->>S: 서비스 accessToken / refreshToken 발급
+    S-->>C: 로그인 응답 반환
+    Note over S,C: accessToken + refreshToken + onboardingCompleted
+```
+
 
 
 ---
